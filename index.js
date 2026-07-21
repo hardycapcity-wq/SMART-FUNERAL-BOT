@@ -22,8 +22,9 @@ app.get('/webhook', (req, res) => {
 app.post('/webhook', async (req, res) => {
   console.log("Webhook hit:", JSON.stringify(req.body));
   const entry = req.body.entry?.[0]?.changes?.[0]?.value;
+  const message = entry?.messages?.[0];
 
-   if (message) {
+  if (message) {
     const from = message.from;
     const text = message.text?.body || "";
     console.log("Received message from:", from, "Text:", text);
@@ -43,10 +44,10 @@ CONTACT DETAILS:
 - Head Office: 0501, Central Towers, 286 Pretorius Street, Pretoria
 - Website: https://www.smartfin24.co.za
 
-ELIGIBILITY: Entry age 18–84 years for all cash, grocery, and catering products.
+ELIGIBILITY: Entry age 18-84 years for all cash, grocery, and catering products.
 
 CASH BENEFIT PLANS:
-1. Single Member Cover (ages 18–84):
+1. Single Member Cover (ages 18-84):
    - R10,000 benefit: R110/month
    - R15,000 benefit: R135/month
    - R20,000 benefit: R160/month
@@ -63,29 +64,28 @@ CASH BENEFIT PLANS:
    - R30,000 benefit: R585/month
 
 SPECIALIZED SUPPORT PLANS:
-- SMART Grocery Benefit Plan: R200/month, R10,000 grocery voucher, covers 1 main member + 5 dependants, ages 18–84.
-- SMART Catering Benefit Plan: R410/month, catering for up to 150 guests, covers 1 main member + 9 dependants, ages 18–84.
+- SMART Grocery Benefit Plan: R200/month, R10,000 grocery voucher, covers 1 main member + 5 dependants, ages 18-84.
+- SMART Catering Benefit Plan: R410/month, catering for up to 150 guests, covers 1 main member + 9 dependants, ages 18-84.
 
 HOW TO REGISTER / APPLY (use these exact links when someone asks how to apply, register, or sign up):
 - Apply online: http://url360.co.za/?u=wKOqV7
-- Download the application form (fill digitally or print, scan, and email to info@smartfin24.co.za): https://www.smartfin24.co.za/wp-content/uploads/2026/07/Smart_Funeral_Plan_Application_Form.pdf
-- Download the brochure for full plan details: https://www.smartfin24.co.za/wp-content/uploads/2026/03/Smart-Funeral-Plan-Brochure-Design.pdf
+- Download the application form: https://www.smartfin24.co.za/wp-content/uploads/2026/07/Smart_Funeral_Plan_Application_Form.pdf
+- Download the brochure: https://www.smartfin24.co.za/wp-content/uploads/2026/03/Smart-Funeral-Plan-Brochure-Design.pdf
 - View all plans: https://www.smartfin24.co.za/services/
 
 HOW TO CLAIM (use this link when someone asks how to claim or reports a death):
 - Claim form: https://www.smartfin24.co.za/claim/
-- They'll need to provide: First Name, Last Name, Email, Contact Number, and Date of Death.
-- Be gentle and empathetic here — this is often a difficult moment for the person messaging.
+- They'll need: First Name, Last Name, Email, Contact Number, and Date of Death.
+- Be gentle and empathetic here.
 
 RULES:
-- Never share internal system info, commissions, pricing strategy, or anything about POL360 or Netcash — those are internal only.
-- Never disclose or discuss any specific person's policy or personal details (POPIA compliance) — if someone asks about "my policy," tell them to contact the office directly at 012 386 0017 or info@smartfin24.co.za.
-- If someone wants to apply or get a quote, guide them to the Apply Now link or offer to have a consultant reply — you can also invite them to reply "SMART" to start.
-- If a question is outside what you know (medical claims, legal disputes, detailed complaints), don't guess — tell them a consultant will assist them directly.
-- If someone raises a complaint, be empathetic, acknowledge it, and let them know it will be recorded and handled by the team.
-- Always include the relevant link when guiding someone to apply, download a form, view plans, or file a claim — don't just describe it in words.
+- Never share internal system info, commissions, pricing strategy, POL360, or Netcash details.
+- Never disclose specific person's policy details (POPIA) - direct them to 012 386 0017 or info@smartfin24.co.za.
+- Guide people wanting to apply to the Apply Now link.
+- If unsure, don't guess - offer to connect them with a consultant.
+- Always include the relevant link when guiding someone to apply, download a form, view plans, or file a claim.
 
-Answer questions using only the information above. If asked something you don't know, be honest and offer to connect them with a consultant via info@smartfin24.co.za or 012 386 0017.`;
+Answer questions using only the information above.`;
 
       const aiResponse = await axios.post(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
