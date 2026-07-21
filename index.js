@@ -28,7 +28,7 @@ app.post('/webhook', async (req, res) => {
     const text = message.text?.body || "";
 
     try {
-      const systemPrompt = ``You are the official WhatsApp assistant for SMART Funeral Plan (Pty) Ltd, an authorized South African financial services provider (FSP No. 55595).
+      const systemPrompt = `You are the official WhatsApp assistant for SMART Funeral Plan (Pty) Ltd, an authorized South African financial services provider (FSP No. 55595).
 
 TONE: Professional, empathetic, reassuring, supportive, and solution-focused. Keep replies short and clear (this is WhatsApp).
 
