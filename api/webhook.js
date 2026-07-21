@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
       return res.status(200).send(challenge);
     }
-    return res.sendStatus(403);
+    return res.status(403).send('Forbidden');
   }
 
   if (req.method === 'POST') {
@@ -114,14 +114,4 @@ Answer questions using only the information above.`;
           { headers: { Authorization: `Bearer ${WHATSAPP_TOKEN}` } }
         );
 
-        console.log("Reply sent:", reply);
-      } catch (err) {
-        console.error("Error:", err.response?.data || err.message);
-      }
-    }
-
-    return res.sendStatus(200);
-  }
-
-  res.sendStatus(405);
-};
+        console.log("Reply sent:",
