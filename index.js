@@ -20,12 +20,13 @@ app.get('/webhook', (req, res) => {
 });
 
 app.post('/webhook', async (req, res) => {
+  console.log("Webhook hit:", JSON.stringify(req.body));
   const entry = req.body.entry?.[0]?.changes?.[0]?.value;
-  const message = entry?.messages?.[0];
 
-  if (message) {
+   if (message) {
     const from = message.from;
     const text = message.text?.body || "";
+    console.log("Received message from:", from, "Text:", text);
 
     try {
       const systemPrompt = `You are the official WhatsApp assistant for SMART Funeral Plan (Pty) Ltd, an authorized South African financial services provider (FSP No. 55595).
