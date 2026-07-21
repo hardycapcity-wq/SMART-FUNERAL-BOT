@@ -87,14 +87,24 @@ RULES:
 
 Answer questions using only the information above.`;
 
-      const aiResponse = await axios.post(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-        {
-          contents: [{ parts: [{ text: text }] }],
-          systemInstruction: { parts: [{ text: systemPrompt }] }
-        },
-        { headers: { "content-type": "application/json" } }
-      );
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+      const geminiBody = {
+        contents: [{ parts: [{ text: text }] }],
+        systemInstruction: { parts: [{ text: systemPrompt }] }
+      };
+
+      let aiResponse;
+      try {
+        aiResponse = await axios.post(geminiUrl, geminiBody, { headers: { "content-type": "application/json" } });
+      } catch (err) {
+        if (err.response?.status === 503) {
+          console.log("Gemini busy, retrying in 3s...");
+          await new Promise(r => setTimeout(r, 3000));
+          aiResponse = await axios.post(geminiUrl, geminiBody, { headers: { "content-type": "application/json" } });
+        } else {
+          throw err;
+        }
+      }
 
       const reply = aiResponse.data.candidates[0].content.parts[0].text;
 
@@ -107,6 +117,8 @@ Answer questions using only the information above.`;
         },
         { headers: { Authorization: `Bearer ${WHATSAPP_TOKEN}` } }
       );
+
+      console.log("Reply sent:", reply);
     } catch (err) {
       console.error("Error:", err.response?.data || err.message);
     }
